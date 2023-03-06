@@ -70,7 +70,7 @@ class CIFAR10DP(LightningModule):
         )
 
         # For the noise in the DP Gaussian mechanism and splitting train/val
-        self.generator = torch.Generator(device=device).manual_seed(2**42)
+        self.generator = torch.Generator().manual_seed(2**42)
 
         # Setup data
         self.prepare_data()
