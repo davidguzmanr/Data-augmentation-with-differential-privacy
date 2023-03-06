@@ -19,22 +19,22 @@ from opacus.validators import ModuleValidator
 
 from torchmetrics import Accuracy
 
-
 PATH_DATASETS = 'data'
+# These values are assumed to be known, but they can also be computed with modest privacy budgets.
 CIFAR10_MEAN = (0.4914, 0.4822, 0.4465)
 CIFAR10_STD = (0.2023, 0.1994, 0.2010)
 
-# class MyLightningCLI(LightningCLI):
-#     def add_arguments_to_parser(self, parser):
-#         parser.add_argument("--differential_privacy.disable", default=False)
-#         parser.add_argument("--differential_privacy.delta", default=1e-5)
+class MyLightningCLI(LightningCLI):
+    def add_arguments_to_parser(self, parser):
+        # https://pytorch-lightning.readthedocs.io/en/stable/cli/lightning_cli_expert.html#argument-linking
+        parser.link_arguments("trainer.max_epochs", "model.epochs", apply_on="parse")
 
 
 class CIFAR10DP(LightningModule):
     def __init__(
         self,
         epochs: int = 50,
-        batch_size: int = 64,
+        batch_size: int = 32,
         lr: float = 1e-3,
         differential_privacy: bool = False,
         data_augmentation: bool = False,
@@ -68,6 +68,7 @@ class CIFAR10DP(LightningModule):
                 # TODO: add data augmentation when data_augmentation=True
             ]
         )
+
         # For the noise in the DP Gaussian mechanism and splitting train/val
         self.generator = torch.Generator(device=device).manual_seed(2**42)
 
@@ -87,9 +88,9 @@ class CIFAR10DP(LightningModule):
             self.private_train_loader = private_train_loader
 
         # Define the metrics to evaluate
-        self.train_accuracy = Accuracy()
-        self.val_accuracy = Accuracy()
-        self.test_accuracy = Accuracy()
+        self.train_accuracy = Accuracy(num_classes=self.num_classes)
+        self.val_accuracy = Accuracy(num_classes=self.num_classes)
+        self.test_accuracy = Accuracy(num_classes=self.num_classes)
 
     def forward(self, x):
         out = self.model(x)
@@ -100,11 +101,13 @@ class CIFAR10DP(LightningModule):
         logits = self(x)
         loss = F.cross_entropy(logits, y)
         preds = torch.argmax(logits, dim=1)
-        self.train_accuracy.update(preds, y)
+
+        # log step metric
+        self.train_accuracy(preds, y)
 
         # Calling self.log will surface up scalars for you in TensorBoard
-        self.log("train_loss", loss, prog_bar=True)
-        self.log("train_acc", self.val_accuracy, prog_bar=True)
+        self.log("train_loss", loss, prog_bar=True, on_step=True, on_epoch=False)
+        self.log("train_acc", self.train_accuracy, prog_bar=True, on_step=True, on_epoch=False)
 
         return loss
 
@@ -113,18 +116,21 @@ class CIFAR10DP(LightningModule):
         logits = self(x)
         loss = F.cross_entropy(logits, y)
         preds = torch.argmax(logits, dim=1)
-        self.val_accuracy.update(preds, y)
+
+        # log step metric
+        self.val_accuracy(preds, y)
 
         # Calling self.log will surface up scalars for you in TensorBoard
-        self.log("val_loss", loss, prog_bar=True)
-        self.log("val_acc", self.val_accuracy, prog_bar=True)
+        self.log("val_loss", loss, prog_bar=True, on_step=True, on_epoch=False)
+        self.log("val_acc", self.val_accuracy, prog_bar=True, on_step=True, on_epoch=False)
 
     def test_step(self, batch, batch_idx):
         x, y = batch
         logits = self(x)
         loss = F.cross_entropy(logits, y)
         preds = torch.argmax(logits, dim=1)
-        self.test_accuracy.update(preds, y)
+        
+        self.test_accuracy(preds, y)
 
         # Calling self.log will surface up scalars for you in TensorBoard
         self.log("test_loss", loss, prog_bar=True)
@@ -195,17 +201,15 @@ class CIFAR10DP(LightningModule):
 
 def cli_main():
     # The LightningCLI removes all the boilerplate associated with arguments parsing. This is purely optional.
-    cli = LightningCLI(
+    cli = MyLightningCLI(
         CIFAR10DP,
         seed_everything_default=42,
         save_config_overwrite=True,
-        run=False,
+        run=False
     )
     cli.trainer.fit(cli.model, datamodule=cli.datamodule)
     cli.trainer.test(ckpt_path="best", datamodule=cli.datamodule)
 
 
 if __name__ == "__main__":
-    CIFAR10(PATH_DATASETS, train=True, download=True)
-    CIFAR10(PATH_DATASETS, train=False, download=True)
     cli_main()
