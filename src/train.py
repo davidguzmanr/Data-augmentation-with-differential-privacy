@@ -33,9 +33,9 @@ class MyLightningCLI(LightningCLI):
 class CIFAR10DP(LightningModule):
     def __init__(
         self,
-        epochs: int = 50,
-        batch_size: int = 32,
-        lr: float = 1e-3,
+        epochs: int = 500,
+        batch_size: int = 2048,
+        lr: float = 0.001,
         differential_privacy: bool = False,
         data_augmentation: bool = False,
         epsilon: float = 50.0,
@@ -137,7 +137,7 @@ class CIFAR10DP(LightningModule):
         self.log("test_acc", self.test_accuracy, prog_bar=True)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+        optimizer = torch.optim.SGD(self.parameters(), lr=self.lr, momentum=0.9, weight_decay=5e-4)
 
         if self.differential_privacy:
             return self.private_optimizer

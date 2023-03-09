@@ -12,8 +12,8 @@ trainer:
   enable_model_summary: true
   callbacks: null
 model:
-  epochs: 50
-  batch_size: 32
+  epochs: 500
+  batch_size: 2048
   lr: 0.001
   differential_privacy: false
   data_augmentation: false
