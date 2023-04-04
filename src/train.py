@@ -132,6 +132,10 @@ class CIFAR10DP(LightningModule):
             on_epoch=True,
         )
 
+        if self.differential_privacy and self.trainer.is_last_batch:
+            epsilon = self.privacy_engine.get_epsilon(self.delta)
+            self.log('epsilon', epsilon, on_step=True, on_epoch=True)
+
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -145,10 +149,6 @@ class CIFAR10DP(LightningModule):
 
         self.log("val_loss", loss, prog_bar=True, on_step=True, on_epoch=True)
         self.log("val_acc", self.val_accuracy, prog_bar=True, on_step=True, on_epoch=True)
-
-        if self.differential_privacy:
-            epsilon = self.privacy_engine(self.delta)
-            self.log('epsilon', epsilon, on_step=True, on_epoch=True)
 
     def test_step(self, batch, batch_idx):
         x, y = batch
