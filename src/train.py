@@ -69,7 +69,6 @@ class CIFAR10DP(LightningModule):
         augmentations = [
             transforms.RandomCrop(size=32, padding=4),
             transforms.RandomHorizontalFlip(p=0.5),
-            transforms.RandomVerticalFlip(p=0.5),
         ]
         normalize = [
             transforms.ToTensor(),
