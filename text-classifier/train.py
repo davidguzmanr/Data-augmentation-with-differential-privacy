@@ -173,7 +173,7 @@ class RottenTomatoesDP(LightningModule):
         self.rotten_tomatoes_train = RottenTomatoesDataset(split='train', augment=self.data_augmentation)
 
         # We will use test as validation to get plots like in https://arxiv.org/pdf/1607.00133.pdf
-        self.rotten_tomatoes_val = RottenTomatoesDataset(split='test', augment=False)
+        self.rotten_tomatoes_val = RottenTomatoesDataset(split='validation', augment=False)
         self.rotten_tomatoes_test = RottenTomatoesDataset(split='test', augment=False)
 
     def train_dataloader(self):

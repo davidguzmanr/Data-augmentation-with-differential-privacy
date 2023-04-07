@@ -6,6 +6,8 @@ from torch.utils.data import Dataset
 from datasets import load_dataset
 from transformers import BertTokenizer
 
+from textattack.augmentation import EasyDataAugmenter
+
 np.random.seed(42)
 
 
@@ -24,8 +26,9 @@ class RottenTomatoesDataset(Dataset):
         return len(self.dataset)
 
     def augment_text(self, text: str) -> str:
-        # TODO
-        pass
+        eda_aug = EasyDataAugmenter()
+        new_text = eda_aug.augment(text)[np.random.randint(0,4)]
+        return(new_text)
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
