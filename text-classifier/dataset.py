@@ -17,6 +17,7 @@ class RottenTomatoesDataset(Dataset):
         self.dataset = load_dataset('rotten_tomatoes')[split]
         self.augment = augment
         self.p = p
+        self.eda_aug = EasyDataAugmenter()
 
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-cased', do_lower_case=False)
 
@@ -26,7 +27,7 @@ class RottenTomatoesDataset(Dataset):
         return len(self.dataset)
 
     def augment_text(self, text: str) -> str:
-        eda_aug = EasyDataAugmenter()
+        eda_aug = self.eda_aug
         new_text = eda_aug.augment(text)
         new_text = new_text[np.random.randint(0,len(new_text))]
         return new_text
