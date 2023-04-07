@@ -1,0 +1,23 @@
+# pytorch_lightning==1.7.7
+seed_everything: 42
+trainer:
+  accelerator: auto
+  devices: 1
+  max_epochs: 3
+  logger: true
+  enable_checkpointing: true
+  enable_progress_bar: true
+  log_every_n_steps: 4
+  precision: 32
+  enable_model_summary: true
+model:
+  epochs: 3
+  batch_size: 32
+  lr: 5e-4
+  weight_decay: 0.0
+  optimizer_name: SGD
+  differential_privacy: false
+  data_augmentation: false
+  epsilon: 10.0
+  delta: 1e-4
+  max_grad_norm: 1.2

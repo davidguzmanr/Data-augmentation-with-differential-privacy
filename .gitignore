@@ -129,9 +129,12 @@ dmypy.json
 .pyre/
 
 # Data
-src/data/
+cifar10/data/
 
 # Logs
-src/lightning_logs/
-
+*/lightning_logs/
+*.zip
 *.tar
+
+# Others
+text-classifier/Dev.ipynb
