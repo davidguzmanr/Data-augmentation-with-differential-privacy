@@ -29,8 +29,8 @@ class MyLightningCLI(LightningCLI):
 class RottenTomatoesDP(LightningModule):
     def __init__(
         self,
-        epochs: int = 3,
-        batch_size: int = 16,
+        epochs: int = 5,
+        batch_size: int = 32,
         lr: float = 5e-4,
         optimizer_name: str = 'Adam',
         weight_decay: float = 0.0,
@@ -38,7 +38,7 @@ class RottenTomatoesDP(LightningModule):
         data_augmentation: bool = False,
         epsilon: float = 10.0,
         delta: float = 1e-4,
-        max_grad_norm: float = 1.0,
+        max_grad_norm: float = 0.1,
     ):
         super().__init__()
         self.save_hyperparameters()
