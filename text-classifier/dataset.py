@@ -27,8 +27,9 @@ class RottenTomatoesDataset(Dataset):
 
     def augment_text(self, text: str) -> str:
         eda_aug = EasyDataAugmenter()
-        new_text = eda_aug.augment(text)[np.random.randint(0,4)]
-        return(new_text)
+        new_text = eda_aug.augment(text)
+        new_text = new_text[np.random.randint(0,len(new_text))]
+        return new_text
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
