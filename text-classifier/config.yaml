@@ -13,7 +13,7 @@ trainer:
 model:
   epochs: 5
   batch_size: 32
-  lr: 5e-4
+  lr: 1e-4
   weight_decay: 0.01
   optimizer_name: Adam
   differential_privacy: false
