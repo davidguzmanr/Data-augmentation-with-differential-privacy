@@ -170,7 +170,9 @@ class RottenTomatoesDP(LightningModule):
     #     CIFAR10(PATH_DATASETS, train=False, download=True)
 
     def setup(self, stage=None):
-        self.rotten_tomatoes_train = RottenTomatoesDataset(split='train', augment=self.data_augmentation)
+        self.rotten_tomatoes_train = RottenTomatoesDataset(
+            split='train', augment=self.data_augmentation
+        )
 
         # We will use test as validation to get plots like in https://arxiv.org/pdf/1607.00133.pdf
         self.rotten_tomatoes_val = RottenTomatoesDataset(split='validation', augment=False)
@@ -180,7 +182,9 @@ class RottenTomatoesDP(LightningModule):
         if self.differential_privacy:
             return self.private_train_loader
         else:
-            return DataLoader(self.rotten_tomatoes_train, batch_size=self.batch_size, num_workers=4, shuffle=True)
+            return DataLoader(
+                self.rotten_tomatoes_train, batch_size=self.batch_size, num_workers=4, shuffle=True
+            )
 
     def val_dataloader(self):
         return DataLoader(self.rotten_tomatoes_val, batch_size=self.batch_size, num_workers=4)
@@ -197,7 +201,9 @@ class RottenTomatoesDP(LightningModule):
         objects: model, optimizer, and the train dataloader.
         """
         privacy_engine = PrivacyEngine()
-        train_loader = DataLoader(self.rotten_tomatoes_train, batch_size=self.batch_size, num_workers=4)
+        train_loader = DataLoader(
+            self.rotten_tomatoes_train, batch_size=self.batch_size, num_workers=4, shuffle=True
+        )
 
         if self.optimizer_name == 'SGD':
             optimizer = torch.optim.SGD(
