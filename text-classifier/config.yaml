@@ -3,7 +3,7 @@ seed_everything: 42
 trainer:
   accelerator: auto
   devices: 1
-  max_epochs: 3
+  max_epochs: 5
   logger: true
   enable_checkpointing: true
   enable_progress_bar: true
@@ -11,11 +11,11 @@ trainer:
   precision: 32
   enable_model_summary: true
 model:
-  epochs: 3
+  epochs: 5
   batch_size: 32
   lr: 5e-4
-  weight_decay: 0.0
-  optimizer_name: adam
+  weight_decay: 0.01
+  optimizer_name: Adam
   differential_privacy: false
   data_augmentation: false
   epsilon: 10.0

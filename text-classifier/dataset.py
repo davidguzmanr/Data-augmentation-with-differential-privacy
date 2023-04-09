@@ -18,7 +18,6 @@ class RottenTomatoesDataset(Dataset):
         self.augment = augment
         self.p = p
         self.eda_aug = EasyDataAugmenter()
-
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-cased', do_lower_case=False)
 
         device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -27,9 +26,8 @@ class RottenTomatoesDataset(Dataset):
         return len(self.dataset)
 
     def augment_text(self, text: str) -> str:
-        eda_aug = self.eda_aug
-        new_text = eda_aug.augment(text)
-        new_text = new_text[np.random.randint(0,len(new_text))]
+        new_text = self.eda_aug.augment(text)
+        new_text = new_text[np.random.randint(0, len(new_text))]
         return new_text
 
     def __getitem__(self, idx):
