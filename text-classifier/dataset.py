@@ -27,7 +27,7 @@ class RottenTomatoesDataset(Dataset):
 
     def augment_text(self, text: str) -> str:
         new_text = self.eda_aug.augment(text)
-        new_text = new_text[np.random.randint(0,len(new_text))]
+        new_text = new_text[np.random.randint(0, len(new_text))]
         return new_text
 
     def __getitem__(self, idx):
