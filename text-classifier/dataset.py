@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 import torch
 from torch.utils.data import Dataset
@@ -9,6 +10,8 @@ from transformers import BertTokenizer
 from textattack.augmentation import EasyDataAugmenter
 
 np.random.seed(42)
+random.seed(42)
+torch.manual_seed(42)
 
 
 class RottenTomatoesDataset(Dataset):
@@ -18,7 +21,9 @@ class RottenTomatoesDataset(Dataset):
         self.augment = augment
         self.p = p
         self.eda_aug = EasyDataAugmenter()
-        self.tokenizer = BertTokenizer.from_pretrained('bert-base-cased', do_lower_case=False)
+        self.tokenizer = BertTokenizer.from_pretrained(
+            'bert-base-cased', do_lower_case=False
+        )
 
         device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -46,11 +51,11 @@ class RottenTomatoesDataset(Dataset):
                 # print(f'New text:      {text}')
 
         encoded_input = self.tokenizer(
-            text, 
-            max_length=128, 
-            padding='max_length', 
-            truncation=True, 
-            return_tensors='pt'
+            text,
+            max_length=128,
+            padding='max_length',
+            truncation=True,
+            return_tensors='pt',
         )
         # Remove extra dimensions
         encoded_input['input_ids'] = encoded_input['input_ids'].squeeze()
