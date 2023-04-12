@@ -16,7 +16,6 @@ trainer:
         logging_interval: epoch
         log_momentum: false 
 model:
-  epochs: 50
   batch_size: 128
   lr: 0.01
   weight_decay: 5e-3

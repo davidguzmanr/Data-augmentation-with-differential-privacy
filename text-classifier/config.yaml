@@ -3,7 +3,7 @@ seed_everything: 42
 trainer:
   accelerator: auto
   devices: 1
-  max_epochs: 5
+  max_epochs: 3
   logger: true
   enable_checkpointing: true
   enable_progress_bar: true
@@ -11,7 +11,6 @@ trainer:
   precision: 32
   enable_model_summary: true
 model:
-  epochs: 5
   batch_size: 32
   lr: 5e-4
   weight_decay: 0.01

@@ -29,7 +29,7 @@ class MyLightningCLI(LightningCLI):
 class RottenTomatoesDP(LightningModule):
     def __init__(
         self,
-        epochs: int = 5,
+        epochs: int = 3,
         batch_size: int = 32,
         lr: float = 5e-4,
         optimizer_name: str = 'Adam',
