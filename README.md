@@ -5,11 +5,8 @@ Final project for CSC2516 Winter 2023 Neural Networks and Deep Learning
 > David Guzmán<sup>1</sup>, Abraham Morales<sup>2</sup>, Rui Xian<sup>2</sup><br>
 > <sup>1</sup>Department of Computer Science, <sup>2</sup>Department of Statistical Sciences<br>
 >
-> <p align="justify"><b>Abstract:</b> <i>Data augmentation is a technique used to generate new training examples from existing data to improve the robustness and generalization of deep learning models, while differential privacy is a technique used to preserve the privacy of individual data points while releasing statistical information about a dataset. Here we study the relationship between data augmentation and differential privacy in deep learning, and the possible tradeoffs they may offer between the success rate of membership inference attacks, total differential privacy cost and general model accuracy. While differential privacy techniques applied to the deep learning framework, and there have been studies on the privacy cost for data augmentation algorithms; to the best of our knowledge, no other work has explored these two together.</i></p>
+> <p align="justify"><b>Abstract:</b> <i>Deep learning often adopts data augmentation as an essential and efficient technique to generate new training examples from existing data to improve the model robustness and generalization. Differential privacy is a technique used to preserve the privacy of individual data points while releasing statistical information about a dataset. In this work, we study the relationship between data augmentation and differential privacy in deep learning for image and text classification. We found that although data augmentation has a negative effect on the performance of models trained with differential privacy, it improves the model robustness against membership inference attacks.</i></p>
 
-## TODO
-- [ ] Define the data augmentation transformations to use.
-- [ ] See which models we are going to use.
-- [ ] Add experiments with other optimizers.
-- [ ] Add experiments with other models.
-- [ ] See how to implement membership inference attacks.
+## Experiments
+- In [cifar10](https://github.com/davidguzmanr/CSC2516/tree/main/cifar10) are the experiments for the image classifier with differential privacy and membership inference attacks.
+- In [text-classifier](https://github.com/davidguzmanr/CSC2516/tree/main/text-classifier) are the experiments for the text classifier with differential privacy and membership inference attacks.
