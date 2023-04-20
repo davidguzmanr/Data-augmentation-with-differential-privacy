@@ -1,5 +1,5 @@
-# CSC2516: How Does Data Augmentation Affect Differential Privacy in Deep Learning?
-Final project for CSC2516 Winter 2023 Neural Networks and Deep Learning
+# CSC2516 Project: How Does Data Augmentation Affect Differential Privacy in Deep Learning?
+Winter 2023 Neural Networks and Deep Learning, University of Toronto
 
 > **How Does Data Augmentation Affect Differential Privacy in Deep Learning?**<br>
 > David Guzmán<sup>1</sup>, Abraham Morales<sup>2</sup>, Rui Xian<sup>2</sup><br>
