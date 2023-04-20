@@ -10,3 +10,14 @@ Winter 2023 Neural Networks and Deep Learning, University of Toronto
 ## Experiments
 1. In [cifar10](https://github.com/davidguzmanr/CSC2516/tree/main/cifar10) are the experiments for the image classifier with differential privacy and membership inference attacks.
 2. In [text-classifier](https://github.com/davidguzmanr/CSC2516/tree/main/text-classifier) are the experiments for the text classifier with differential privacy and membership inference attacks.
+
+## Environment
+Create a virtual environment witn Anaconda and install the requirements
+```
+conda create --name=CSC2516 python=3.8
+conda activate CSC2516
+
+git clone https://github.com/davidguzmanr/CSC2516.git
+cd CSC2516
+pip install -r requirements.txt
+```
